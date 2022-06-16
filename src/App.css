@@ -1,0 +1,45 @@
+body {
+  background-color: #e5e5e5;
+}
+
+.blog {
+  @apply
+    w-11/12
+    xl:w-10/12
+    m-auto
+}
+
+.logo {
+  max-height: 18vh;
+}
+
+/* #top > nav > ul, a {
+  background-image: linear-gradient(to left, pink, violet, indigo, blue, green, yellow, orange, red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#top > nav > ul > li {
+  @apply
+    mb-1
+    text-3xl
+    font-light
+    px-10
+    border-black
+    pt-20
+  ;
+  transition: padding .5s ease-in-out, border .5s ease-in-out;
+}
+
+#top > nav > ul > li:hover {
+  border-top-width: 150px;
+  padding-top: 4px;
+}
+
+.logo {
+  @apply
+    mt-5
+    w-full
+  ;
+  max-height: 25vh;
+} */
