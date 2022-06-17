@@ -1,16 +1,28 @@
-body {
-  background-color: #e5e5e5;
-}
-
 .blog {
+  background-color: #e5e5e5;
   @apply
-    w-11/12
-    xl:w-10/12
     m-auto
+  ;
 }
 
 .logo {
   max-height: 18vh;
+}
+
+a:link {
+  @apply
+    text-blue-900
+}
+
+a:hover, a:active {
+  @apply
+    underline
+  ;
+}
+
+a:visited {
+  @apply
+    text-purple-700
 }
 
 /* #top > nav > ul, a {
