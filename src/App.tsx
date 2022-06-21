@@ -1,7 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
-import Admin from './Admin/';
+import axios from 'axios';
+
+import Admin from './Admin';
+import NotFound from './NotFound';
 
 import logo from './logo.svg';
 import './App.css';
@@ -12,6 +15,7 @@ const App: FC = () => {
       <Route path="/">
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
+        <Route path="posts" element={<Posts />} />
         <Route path="admin/*" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
         <Route />
@@ -31,10 +35,25 @@ const Home: FC = () => {
   );
 };
 
-const NotFound: FC = () => {
+const Posts: FC = () => {
+  const [message, setMessage] = useState<string>();
+  const fetchData = async () => {
+    try {
+      let result = await axios.get('/api/auth/signup');
+      setMessage(result.data.message);
+    } catch (err) {
+      console.log(err);
+      setMessage('Failed to retrieve data.');
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div className="error-notfound">
-      404 Error: Page not found
+    <div className="blog-posts">
+      {message}
     </div>
   );
 };

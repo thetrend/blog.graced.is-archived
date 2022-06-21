@@ -7,3 +7,6 @@ An experiment in stretching my node and typescript skills. Maybe this'll be the 
 * Tailwind
 * Fauna
 * Netlify
+
+## Resources and Inspo
+https://geekiam.io/serverless-netlify-faunadb-gridsome/
