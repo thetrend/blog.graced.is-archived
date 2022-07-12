@@ -8,7 +8,7 @@ const destroyLogin = () => {
   return;
 };
 
-const logout = async (event: HandlerEvent): Promise<HandlerResponse> => {
+const logout = async (): Promise<HandlerResponse> => {
   let { client, q } = dbHelper();
   try {
     destroyLogin();

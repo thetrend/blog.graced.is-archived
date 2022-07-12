@@ -6,4 +6,4 @@ const AdminHome: FC = () => {
   );
 };
 
-export { AdminHome };
+export default AdminHome;

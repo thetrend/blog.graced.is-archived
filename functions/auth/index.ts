@@ -1,6 +1,6 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
-import { genericError, urlHelper } from '../utils';
+import { genericError, urlHelper, authHelper as authenticate } from '../utils';
 import login from './login';
 import loadID from './loadID';
 import logout from './logout';
@@ -20,10 +20,10 @@ const handler = async (event: HandlerEvent) => {
         response = login(event);
         break;
       case 'me':
-        response = loadID(event);
+        response = loadID();
         break;
       case 'logout':
-        response = logout(event);
+        response = logout();
         break;
       default:
         response = genericError();

@@ -25,6 +25,13 @@ a:visited {
     text-purple-700
 }
 
+.admin-panel {
+  border: 1px solid red;
+  margin: 5vw 5vh;
+  width: 90vw;
+  min-height: 90vh;
+}
+
 /* #top > nav > ul, a {
   background-image: linear-gradient(to left, pink, violet, indigo, blue, green, yellow, orange, red);
   -webkit-background-clip: text;

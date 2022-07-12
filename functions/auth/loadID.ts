@@ -1,7 +1,7 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import { dbHelper, genericError } from '../utils';
 
-const loadID = async (event: HandlerEvent): Promise<HandlerResponse> => {
+const loadID = async (): Promise<HandlerResponse> => {
   try {
     const { client, q } = dbHelper();
 
@@ -13,8 +13,11 @@ const loadID = async (event: HandlerEvent): Promise<HandlerResponse> => {
       statusCode: 200,
       body: JSON.stringify({ id: loadQuery })
     };
-  } catch (err) {
-    return genericError();
+  } catch (err: any) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: err.name })
+    };
   }
 };
 
