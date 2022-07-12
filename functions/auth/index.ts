@@ -1,9 +1,12 @@
-import { HandlerContext, HandlerEvent, HandlerResponse } from '@netlify/functions';
+import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
-import { urlHelper } from '../utils';
+import { genericError, urlHelper } from '../utils';
+import login from './login';
+import loadID from './loadID';
+import logout from './logout';
 import signup from './signup';
 
-const handler = async (event: HandlerEvent, context: HandlerContext) => {
+const handler = async (event: HandlerEvent) => {
   try {
     const endpoint = urlHelper(event);
 
@@ -11,22 +14,23 @@ const handler = async (event: HandlerEvent, context: HandlerContext) => {
 
     switch (endpoint) {
       case 'signup':
-        response = signup(event, context);
+        response = signup(event);
         break;
       case 'login':
+        response = login(event);
+        break;
+      case 'me':
+        response = loadID(event);
+        break;
       case 'logout':
+        response = logout(event);
+        break;
       default:
-        response = {
-          statusCode: 400,
-          body: JSON.stringify({ message: 'whoops' })
-        };
+        response = genericError();
     }
     return response;
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: 'oh shit'
-    };
+    return genericError();
   }
 };
 

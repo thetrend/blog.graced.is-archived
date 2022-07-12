@@ -40,7 +40,7 @@ const Posts: FC = () => {
   const fetchData = async () => {
     try {
       let result = await axios.get('/api/auth/signup');
-      setMessage(result.data.message);
+      setMessage(result.data?.message as string);
     } catch (err) {
       console.log(err);
       setMessage('Failed to retrieve data.');

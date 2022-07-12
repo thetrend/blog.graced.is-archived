@@ -1,10 +1,48 @@
-import { Event } from '@netlify/functions/dist/function/event';
+import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
-const urlHelper = (event: Event) => {
+import faunadb from 'faunadb';
+import jwt from 'jsonwebtoken';
+
+const urlHelper = (event: HandlerEvent) => {
   const path = event.path.replace(/\/api\/+/, '');
   const segments = path.split('/').filter(segment => segment);
   const endpoint = segments[segments.length - 1];
   return endpoint;
+};
+
+const dbHelper = (isAuthenticated: boolean = true) => {
+  const client = new faunadb.Client({
+    secret: isAuthenticated ? process.env.AUTH_SECRET as string : process.env.FAUNADB_SERVER_SECRET as string,
+    keepAlive: isAuthenticated
+  });
+  const q = faunadb.query;
+
+  return { client, q };
+};
+
+const authHelper = async (event: HandlerEvent, reroute: any): Promise<HandlerResponse> => {
+  let hashedToken: string = process.env['TOKEN'] as string;
+
+  if (hashedToken) {
+    await jwt.verify(hashedToken, process.env['NETLIFY_JWT_SECRET'] as string, (err) => {
+      event.headers = {
+        ...event.headers,
+        'Authorization': `Bearer ${hashedToken}`,
+      };
+    });
+    return reroute(event);
+  }
+  return {
+    statusCode: 400,
+    body: JSON.stringify({ isAuthenticated: false })
+  };
+};
+
+const genericError = () => {
+  return {
+    statusCode: 500,
+    body: JSON.stringify({ message: 'Server error' })
+  }
 }
 
-export { urlHelper };
+export { urlHelper, dbHelper, authHelper, genericError };
