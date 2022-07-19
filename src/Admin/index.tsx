@@ -5,6 +5,7 @@ import NotFound from '../NotFound';
 
 import AdminHome from './AdminHome';
 import Signup from '../Auth/Signup';
+import Login from '../Auth/Login';
 
 const Admin: FC = () => {
   return (
@@ -12,6 +13,7 @@ const Admin: FC = () => {
       <Routes>
         <Route index element={<AdminHome />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="login" element={<Login />} />
         <Route path="posts/*" element={<DummyPosts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

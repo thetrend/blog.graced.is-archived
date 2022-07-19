@@ -1,5 +1,5 @@
-import { HandlerEvent, HandlerResponse } from '@netlify/functions';
-import { dbHelper, genericError } from '../utils';
+import { HandlerResponse } from '@netlify/functions';
+import { dbHelper } from '../utils';
 
 const loadID = async (): Promise<HandlerResponse> => {
   try {

@@ -1,6 +1,6 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
-import { genericError, urlHelper, authHelper as authenticate } from '../utils';
+import { genericError, urlHelper } from '../utils';
 import login from './login';
 import loadID from './loadID';
 import logout from './logout';

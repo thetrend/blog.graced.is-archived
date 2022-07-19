@@ -13,9 +13,10 @@
     "axios": "^0.27.2",
     "faunadb": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
-    "netlify-cli": "^10.5.1",
+    "netlify-cli": "^10.9.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "validator": "^13.7.0"
   },

@@ -1,26 +1,14 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 
 import validator from 'validator';
+import { AuthError, IAuthUser } from '../../src/contexts/auth/AuthTypes';
 import { dbHelper, genericError } from '../utils';
-
-// TODO: move this out to a higher level for FE-compatible usage
-interface NewUser {
-  email: string;
-  username: string;
-  password: string;
-  verifiedPassword: string;
-};
-
-interface errorMessage {
-  name: 'email' | 'username' | 'password' | 'verifiedPassword' | 'login';
-  message: string;
-};
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
     if (event.httpMethod === 'POST' && (event.body)?.includes('email')) {
-      let { email, username, password, verifiedPassword }: NewUser = JSON.parse(event.body);
-      let errorsArray: errorMessage[] = [];
+      let { email, username, password, verifiedPassword }: IAuthUser = JSON.parse(event.body);
+      let errorsArray: AuthError[] = [];
 
       if (!email) {
         errorsArray.push({
@@ -76,6 +64,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
 
       const FAUNA_COLL_USERS: string = 'users';
       const FAUNA_INDEX_USERS_EMAIL: string = 'users_by_email';
+      const FAUNA_ALL_USERS: string = 'all_users';
 
       await client.query(
         q.If(
@@ -97,6 +86,18 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
               field: ['data', 'email']
             }],
             unique: true,
+          })
+        )
+      );
+
+      await client.query(
+        q.If(
+          q.Exists(q.Index(FAUNA_ALL_USERS)),
+          null,
+          q.CreateIndex({
+            name: FAUNA_ALL_USERS,
+            permissions: { read: 'public' },
+            source: q.Collection(FAUNA_COLL_USERS),
           })
         )
       );

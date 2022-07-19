@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import axios from 'axios';
@@ -8,8 +8,14 @@ import NotFound from './NotFound';
 
 import logo from './logo.svg';
 import './App.css';
+import { AuthContext } from './contexts/auth/AuthContext';
 
 const App: FC = () => {
+  const { state } = useContext(AuthContext);
+  
+  useEffect(() => {
+      console.log(state);
+  }, [state]);
   return (
     <Routes>
       <Route path="/">
@@ -25,12 +31,14 @@ const App: FC = () => {
 };
 
 const Home: FC = () => {
+  const { state } = useContext(AuthContext);
   return (
     <div className="blog">
       <header id="top">
         <img src={logo} className="logo" alt="graced.is" />
-        <Link to="/admin">Link to Admin Panel</Link>
+        {state.isAuthenticated ? (<Link to="/admin">Link to Admin Panel</Link>) : <Link to="/admin/login">Log In</Link>}
       </header>
+      <main>{}</main>
     </div>
   );
 };
@@ -39,8 +47,13 @@ const Posts: FC = () => {
   const [message, setMessage] = useState<string>();
   const fetchData = async () => {
     try {
-      let result = await axios.get('/api/auth/signup');
-      setMessage(result.data?.message as string);
+      let result = await axios.get('/api/posts');
+      if (Array.isArray(result.data)) {
+        result.data.map(user => {
+          setMessage(user)         
+        })
+      }
+      console.log(result.data);
     } catch (err) {
       console.log(err);
       setMessage('Failed to retrieve data.');
