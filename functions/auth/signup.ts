@@ -60,11 +60,15 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         };
       }
 
-      const { client, q } = dbHelper(false);
+      const { client, q } = dbHelper(false, true);
 
+      // TODO: MOVE THESE CONSTANTS OUT
       const FAUNA_COLL_USERS: string = 'users';
       const FAUNA_INDEX_USERS_EMAIL: string = 'users_by_email';
       const FAUNA_ALL_USERS: string = 'all_users';
+
+      const FAUNA_COLL_POSTS: string = 'posts';
+      const FAUNA_ALL_POSTS: string = 'all_posts';
 
       await client.query(
         q.If(
@@ -102,6 +106,50 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         )
       );
 
+      await client.query(
+        q.If(
+          q.Exists(q.Collection(FAUNA_COLL_POSTS)),
+          null,
+          q.CreateCollection({ name: FAUNA_COLL_POSTS })
+        )
+      );
+
+      await client.query(
+        q.If(
+          q.Exists(q.Index(FAUNA_ALL_POSTS)),
+          null,
+          q.CreateIndex({
+            name: FAUNA_ALL_POSTS,
+            permissions: { read: 'public' },
+            source: q.Collection(FAUNA_COLL_POSTS),
+          })
+        )
+      );
+
+      await client.query(
+        q.CreateRole({
+          name: 'crud_posts',
+          membership: [
+            {
+              resource: q.Collection(FAUNA_COLL_USERS),
+            }
+          ],
+          privileges: [
+            {
+              resource: q.Collection(FAUNA_COLL_POSTS),
+              actions: {
+                create: true,
+                read: true,
+                delete: true,
+                write: true,
+                history_read: true,
+                history_write: true,
+              }
+            }
+          ]
+        })
+      );
+
       let signupQuery = await client.query(
         q.Create(
           q.Collection(FAUNA_COLL_USERS),
@@ -126,13 +174,12 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         statusCode: 200,
         body: JSON.stringify({ message: signupQuery })
       };
-    } else {
-      return genericError();
     }
+    return genericError();
   } catch (error) {
     return {
       statusCode: 500,
-      body: error as string
+      body: JSON.stringify({ error })
     };
   }
 };

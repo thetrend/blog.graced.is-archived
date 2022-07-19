@@ -44,29 +44,10 @@ const Home: FC = () => {
 };
 
 const Posts: FC = () => {
-  const [message, setMessage] = useState<string>();
-  const fetchData = async () => {
-    try {
-      let result = await axios.get('/api/posts');
-      if (Array.isArray(result.data)) {
-        result.data.map(user => {
-          setMessage(user)         
-        })
-      }
-      console.log(result.data);
-    } catch (err) {
-      console.log(err);
-      setMessage('Failed to retrieve data.');
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return (
+// TODO: use Context to propagate post info?
+   return (
     <div className="blog-posts">
-      {message}
+      Posts to come soon
     </div>
   );
 };

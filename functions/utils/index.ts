@@ -10,9 +10,14 @@ const urlHelper = (event: HandlerEvent) => {
   return endpoint;
 };
 
-const dbHelper = (isAuthenticated: boolean = true) => {
+const dbHelper = (isAuthenticated: boolean = true, needsAdminPrivileges: boolean = false) => {
   const client = new faunadb.Client({
-    secret: isAuthenticated ? process.env.AUTH_SECRET as string : process.env.FAUNADB_SERVER_SECRET as string,
+    secret: isAuthenticated ?
+      process.env.AUTH_SECRET as string :
+      needsAdminPrivileges ?
+        process.env.FAUNADB_ADMIN_SECRET as string :
+        process.env.FAUNADB_SERVER_SECRET as string
+    ,
     keepAlive: isAuthenticated
   });
   const q = faunadb.query;
@@ -20,7 +25,7 @@ const dbHelper = (isAuthenticated: boolean = true) => {
   return { client, q };
 };
 
-const authHelper = async (event: HandlerEvent, reroute: any): Promise<HandlerResponse> => {
+const authHelper = async (event: HandlerEvent, response: any): Promise<HandlerResponse> => {
   let hashedToken: string = process.env['TOKEN'] as string;
 
   if (hashedToken) {
@@ -30,7 +35,7 @@ const authHelper = async (event: HandlerEvent, reroute: any): Promise<HandlerRes
         'Authorization': `Bearer ${hashedToken}`,
       };
     });
-    return reroute(event);
+    return response(event);
   }
   return {
     statusCode: 400,

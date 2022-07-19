@@ -9,7 +9,7 @@ const fetchPosts = async (): Promise<HandlerResponse> => {
       q.Map(
         q.Paginate(
           q.Match(
-            q.Index('all_users') // TODO: refactor into posts
+            q.Index('all_posts') // TODO: refactor into posts
           )
         ),
         q.Lambda('X', q.Get(q.Var('X')))
