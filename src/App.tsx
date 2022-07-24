@@ -1,44 +1,39 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-
-import Admin from './Admin';
-import NotFound from './NotFound';
-
-import logo from './logo.svg';
-import './App.css';
+import setAuthToken from './utils/setAuthToken';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
 import { AuthContext } from './contexts/auth/AuthContext';
+import { logout } from './contexts/auth/authActions';
 
 const App: FC = () => {
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
-        <Route path="home" element={<Home />} />
-        <Route path="posts/*" element={<Posts />} />
-        <Route path="admin/*" element={<Admin />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Route>
     </Routes>
   );
 };
 
 const Home: FC = () => {
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
+  const { isAuthenticated } = state;
   return (
-    <div className="blog">
-      <header id="top">
-        <img src={logo} className="logo" alt="graced.is" />
-        {state.isAuthenticated ? (<Link to="/admin">Welcome, $user.</Link>) : <Link to="/admin/login">Log In</Link>}
-      </header>
-    </div>
-  );
-};
-
-const Posts: FC = () => {
-   return (
-    <div className="blog-posts">
-      Posts to come soon
-    </div>
+    <>
+      {isAuthenticated ?
+        <>Hello, $user. <a onClick={() => logout(dispatch)}>Logout?</a></> :
+        <><Link to="/login">Login</Link> &middot; <Link to="/signup">Signup</Link></>
+      }
+    </>
   );
 };
 

@@ -1,7 +1,8 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
+import axios from 'axios';
 
 import validator from 'validator';
-import { AuthError, IAuthUser } from '../../src/contexts/auth/AuthTypes';
+import { API_AUTH_URL, AuthError, IAuthUser } from '../../src/contexts/auth/AuthTypes';
 import { dbHelper, genericError } from '../utils';
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
@@ -167,19 +168,21 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
           }
         )
       )
-        .then((res: any) => {
-          return res.data as string;
+        .then(async () => {
+          return await axios.post(`${process.env['URL']}${API_AUTH_URL}/login`, { email, password })
+            .then(res => res.data);
         })
         .catch((err: any) => {
-          return err.description.includes('document is not unique') ? 'User email already exists.' as string : err.description as string;
+          const error = err.description.includes('document is not unique') ? 'User email already exists.' as string : err.description as string;
+          return {
+            message: error
+          };
         });
-
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: signupQuery })
-      };
+        body: JSON.stringify(signupQuery)
+      }
     }
-    return genericError();
   } catch (error) {
     return {
       statusCode: 500,

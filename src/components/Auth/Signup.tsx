@@ -1,35 +1,30 @@
-import { ChangeEvent, FC, FormEvent, useContext, useEffect, useState } from 'react';
-import { IAuthUser, LocationProps } from '../contexts/auth/AuthTypes';
-import { AuthContext } from '../contexts/auth/AuthContext';
-import { signup } from '../contexts/auth/authActions';
-import { useLocation, useNavigate } from 'react-router';
+import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
+import { Navigate } from 'react-router';
+import { signup } from '../../contexts/auth/authActions';
+import { AuthContext } from '../../contexts/auth/AuthContext';
+import { IAuthUser } from '../../contexts/auth/AuthTypes';
 
 const Signup: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const { errors, isAuthenticated } = state;
   const [formData, setFormData] = useState<IAuthUser>({
     email: '',
     username: '',
     password: '',
     verifiedPassword: '',
   });
-  const {
-    email,
-    username,
-    password,
-    verifiedPassword
-  } = formData;
-  const navigate = useNavigate();
-  const location = useLocation() as LocationProps;
-  const from = location.state?.from?.pathname || '/';
-  // TODO: move this to a hook? Using this for all forms
+
+  const { email, username, password, verifiedPassword } = formData;
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const submitSignup = async (e: FormEvent<HTMLFormElement>) => {
+
+  const handleSignup = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signup(dispatch, formData);
-  };
+  }
 
   let emailError, usernameError, passwordError, verifypwError;
+
+  let { errors, isAuthenticated } = state;
 
   if (errors && errors.length > 0) {
     errors.forEach(error => {
@@ -52,19 +47,17 @@ const Signup: FC = () => {
     });
   }
 
-  useEffect(() => {
     if (isAuthenticated) {
-      return navigate(from, { replace: true });
+      return <Navigate to="/" replace />;
     }
-  }, [state]);
 
   return (
     <>
       <h1>Signup</h1>
-      <form onSubmit={submitSignup}>
+      <form onSubmit={handleSignup}>
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
         {emailError && <p className="form-error">{emailError}</p>}
-        <input type="username" name="username" placeholder="Username" value={username} onChange={handleChange} />
+        <input type="text" name="username" placeholder="Username" value={username} onChange={handleChange} />
         {usernameError && <p className="form-error">{usernameError}</p>}
         <input type="password" name="password" placeholder="Password" value={password} onChange={handleChange} />
         {passwordError && <p className="form-error">{passwordError}</p>}
@@ -73,7 +66,7 @@ const Signup: FC = () => {
         <button type="submit">Sign Up</button>
       </form>
     </>
-  );
-};
+  )
+}
 
 export default Signup;
