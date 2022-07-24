@@ -13,17 +13,17 @@ const Admin: FC = () => {
   return (
     <div className="admin-panel">
       <Routes>
-        <Route index element={<AdminHome />} />
+        <Route index element={<AdminHome/>} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
-        <Route path="posts/*" element={<DummyPosts />} />
+        <Route path="posts/*" element={<AdminPosts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
 };
 
-const DummyPosts: FC = () => {
+const AdminPosts: FC = () => {
   return (
     <>
       This is dummy text

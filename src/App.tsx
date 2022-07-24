@@ -14,7 +14,7 @@ const App: FC = () => {
       <Route path="/">
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="posts" element={<Posts />} /> {/* TODO: what do with this? */}
+        <Route path="posts/*" element={<Posts />} />
         <Route path="admin/*" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Route>
