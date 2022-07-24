@@ -1,11 +1,11 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
-import { IPost } from '../../src/contexts/posts/PostTypes';
+import { Post } from '../../src/contexts/posts/PostTypes';
 import { dbHelper, genericError } from '../utils';
 
 const createPost = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
     if (event.httpMethod === 'POST' && (event.body)?.includes('slug')) {
-      let { title, body, slug, isDraft, isPrivate, categories, tags }: IPost = JSON.parse(event.body);
+      let { title, body, slug, isDraft, isPrivate, categories, tags }: Post = JSON.parse(event.body);
 
       const { client, q } = dbHelper();
 
@@ -26,7 +26,7 @@ const createPost = async (event: HandlerEvent): Promise<HandlerResponse> => {
               tags,
               postedDate: Date.now(),
               editDate: null,
-              authorID: q.Identity(),
+              authorID: q.CurrentIdentity(),
             }
           }
         )

@@ -1,6 +1,6 @@
-import { HandlerEvent, HandlerResponse } from '@netlify/functions';
+import { HandlerEvent } from '@netlify/functions';
 
-import { genericError, urlHelper } from '../utils';
+import { authHelper as authenticate, genericError, urlHelper } from '../utils';
 import login from './login';
 import loadID from './loadID';
 import logout from './logout';
@@ -10,7 +10,7 @@ const handler = async (event: HandlerEvent) => {
   try {
     const endpoint = urlHelper(event);
 
-    let response: void | HandlerResponse | PromiseLike<void | HandlerResponse>;
+    let response;
 
     switch (endpoint) {
       case 'signup':
@@ -20,7 +20,7 @@ const handler = async (event: HandlerEvent) => {
         response = login(event);
         break;
       case 'me':
-        response = loadID();
+        response = loadID(event);
         break;
       case 'logout':
         response = logout();

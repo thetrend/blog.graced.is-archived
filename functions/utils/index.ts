@@ -38,7 +38,7 @@ const authHelper = async (event: HandlerEvent, response: any): Promise<HandlerRe
     return response(event);
   }
   return {
-    statusCode: 400,
+    statusCode: 200,
     body: JSON.stringify({ isAuthenticated: false })
   };
 };

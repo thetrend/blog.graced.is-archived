@@ -1,8 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
-import axios from 'axios';
-
 import Admin from './Admin';
 import NotFound from './NotFound';
 
@@ -11,20 +9,14 @@ import './App.css';
 import { AuthContext } from './contexts/auth/AuthContext';
 
 const App: FC = () => {
-  const { state } = useContext(AuthContext);
-  
-  useEffect(() => {
-      console.log(state);
-  }, [state]);
   return (
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="posts" element={<Posts />} />
+        <Route path="posts" element={<Posts />} /> {/* TODO: what do with this? */}
         <Route path="admin/*" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
-        <Route />
       </Route>
     </Routes>
   );
@@ -36,15 +28,13 @@ const Home: FC = () => {
     <div className="blog">
       <header id="top">
         <img src={logo} className="logo" alt="graced.is" />
-        {state.isAuthenticated ? (<Link to="/admin">Link to Admin Panel</Link>) : <Link to="/admin/login">Log In</Link>}
+        {state.isAuthenticated ? (<Link to="/admin">Welcome, $user.</Link>) : <Link to="/admin/login">Log In</Link>}
       </header>
-      <main>{}</main>
     </div>
   );
 };
 
 const Posts: FC = () => {
-// TODO: use Context to propagate post info?
    return (
     <div className="blog-posts">
       Posts to come soon

@@ -127,27 +127,31 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
       );
 
       await client.query(
-        q.CreateRole({
-          name: 'crud_posts',
-          membership: [
-            {
-              resource: q.Collection(FAUNA_COLL_USERS),
-            }
-          ],
-          privileges: [
-            {
-              resource: q.Collection(FAUNA_COLL_POSTS),
-              actions: {
-                create: true,
-                read: true,
-                delete: true,
-                write: true,
-                history_read: true,
-                history_write: true,
+        q.If(
+          q.Exists(q.Role('crud_posts')),
+          null,
+          q.CreateRole({
+            name: 'crud_posts',
+            membership: [
+              {
+                resource: q.Collection(FAUNA_COLL_USERS),
               }
-            }
-          ]
-        })
+            ],
+            privileges: [
+              {
+                resource: q.Collection(FAUNA_COLL_POSTS),
+                actions: {
+                  create: true,
+                  read: true,
+                  delete: true,
+                  write: true,
+                  history_read: true,
+                  history_write: true,
+                }
+              }
+            ]
+          })
+        )
       );
 
       let signupQuery = await client.query(

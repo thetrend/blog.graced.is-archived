@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, FormEvent, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/auth/AuthContext';
 import { login } from '../contexts/auth/authActions';
-import { IAuthUser, LocationProps } from '../contexts/auth/AuthTypes';
-import { useLocation, useNavigate } from 'react-router';
+import { IAuthUser } from '../contexts/auth/AuthTypes';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const Login: FC = () => {
@@ -14,8 +14,6 @@ const Login: FC = () => {
   });
   const { email, password } = formData;
   const navigate = useNavigate();
-  const location = useLocation() as LocationProps;
-  const from = location.state?.from?.pathname || '/';
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => setFormData({ ...formData, [e.target.name]: e.target.value });
   const submitLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,9 +22,9 @@ const Login: FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from, { replace: true });
+      navigate('/admin', { replace: true }); 
     }
-  }, [state]);
+  }, []);
 
   return (
     <>

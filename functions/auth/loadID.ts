@@ -1,7 +1,7 @@
-import { HandlerResponse } from '@netlify/functions';
+import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import { dbHelper } from '../utils';
 
-const loadID = async (): Promise<HandlerResponse> => {
+const loadID = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
     const { client, q } = dbHelper();
 
@@ -15,8 +15,8 @@ const loadID = async (): Promise<HandlerResponse> => {
     };
   } catch (err: any) {
     return {
-      statusCode: 400,
-      body: JSON.stringify({ message: err.name })
+      statusCode: 200,
+      body: JSON.stringify({ isAuthenticated: false })
     };
   }
 };

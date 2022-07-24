@@ -1,13 +1,15 @@
-import { FC } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { FC, useContext } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import NotFound from '../NotFound';
 
 import AdminHome from './AdminHome';
 import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
+import { AuthContext } from '../contexts/auth/AuthContext';
 
 const Admin: FC = () => {
+  const { state, dispatch } = useContext(AuthContext);
   return (
     <div className="admin-panel">
       <Routes>
