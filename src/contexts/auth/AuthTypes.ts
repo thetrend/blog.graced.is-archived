@@ -17,6 +17,8 @@ export type AuthAction =
   } | {
     type: 'SIGNUP_ERROR' | 'LOGIN_ERROR',
     payload?: AuthError[];
+  } | {
+    type: 'LOGOUT_SUCCESS'
   };
 
 export interface IAuthUser {

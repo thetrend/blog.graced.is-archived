@@ -23,15 +23,14 @@ export type IPostState = {
 
 export type PostAction =
   | {
-    type: 'NEW_POST_SUCCESS',
+    type: 'CREATE_POST_SUCCESS',
     payload: {
       post: Post
     }
   } | {
-    type: 'NEW_POST_ERROR',
+    type: 'CREATE_POST_ERROR',
     payload: {
-      name: string,
-      message: string,
+      error: string,
     }
   } | {
     type: 'FETCH_ALL_POSTS',

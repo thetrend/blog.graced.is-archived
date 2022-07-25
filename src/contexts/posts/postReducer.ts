@@ -1,15 +1,12 @@
 import { IPostState, PostAction } from './PostTypes';
 
-export default (state: IPostState, action: PostAction): IPostState => {
+export default (state: IPostState, action: PostAction) => {
   switch (action.type) {
-    case 'NEW_POST_SUCCESS':
-    case 'FETCH_ALL_POSTS':
-        return {
+    case 'CREATE_POST_SUCCESS':
+      return {
+        post: action.payload,
         ...state,
-        ...action.payload,
-        loading: false
       }
-    case 'NEW_POST_ERROR':
     default:
       return state;
   }

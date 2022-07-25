@@ -32,15 +32,19 @@ const createPost = async (event: HandlerEvent): Promise<HandlerResponse> => {
         )
       )
         .then((res: any) => {
-          return res.data;
+          return {
+            post: res.data
+          };
         })
         .catch((err: any) => {
-          return err.description as string;
+          return { 
+            error: err.description as string
+          };
         });
 
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: createPostQuery })
+        body: JSON.stringify(createPostQuery)
       };
     }
     return genericError();

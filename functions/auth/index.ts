@@ -20,13 +20,17 @@ const handler = async (event: HandlerEvent) => {
         response = login(event);
         break;
       case 'me':
-        response = loadID(event);
+        response = (event: HandlerEvent) => loadID(event);
         break;
       case 'logout':
         response = logout();
         break;
       default:
         response = genericError();
+    }
+    const authLinks = ['me'];
+    if (authLinks.includes(endpoint)) {
+      return authenticate(event, response);
     }
     return response;
   } catch (error) {
