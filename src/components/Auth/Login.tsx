@@ -3,6 +3,8 @@ import { Navigate } from 'react-router';
 import { login } from '../../contexts/auth/authActions';
 import { AuthContext } from '../../contexts/auth/AuthContext';
 import { IAuthUser } from '../../contexts/auth/AuthTypes';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 const Login: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -27,15 +29,15 @@ const Login: FC = () => {
   }
 
   return (
-    <>
+    <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
       {errors && <p className="form-error">{errors[0].message}</p>}
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
         <input type="password" name="password" placeholder="Password" value={password} onChange={handleChange} />
-        <button type="submit">Login</button>
+        <span><button type="submit">Login</button> or <Link to="/signup">Signup</Link></span>
       </form>
-    </>
+    </div>
   )
 }
 

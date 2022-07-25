@@ -1,8 +1,10 @@
 import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
 import { Navigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { signup } from '../../contexts/auth/authActions';
 import { AuthContext } from '../../contexts/auth/AuthContext';
 import { IAuthUser } from '../../contexts/auth/AuthTypes';
+import classNames from 'classnames';
 
 const Signup: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -52,7 +54,7 @@ const Signup: FC = () => {
     }
 
   return (
-    <>
+    <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Signup</h1>
       <form onSubmit={handleSignup}>
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
@@ -63,9 +65,9 @@ const Signup: FC = () => {
         {passwordError && <p className="form-error">{passwordError}</p>}
         <input type="password" name="verifiedPassword" placeholder="Verify Password" value={verifiedPassword} onChange={handleChange} />
         {verifypwError && <p className="form-error">{verifypwError}</p>}
-        <button type="submit">Sign Up</button>
+        <span><button type="submit">Sign Up</button> or <Link to="/login">Login</Link></span>
       </form>
-    </>
+    </div>
   )
 }
 
