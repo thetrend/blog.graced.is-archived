@@ -2,8 +2,9 @@ import { FC } from 'react';
 
 const NotFound: FC = () => {
   return (
-    <div className="error-notfound">
-      404 Error: Page not found
+    <div id="content">
+      <h1>Page Not Found</h1>
+      <p>😭 The page you are looking for does not exist.</p>
     </div>
   );
 };

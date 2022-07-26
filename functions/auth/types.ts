@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 
 export const API_AUTH_URL: string = '/api/auth';
+export const FAUNA_USERS_EMAIL_INDEX: string = 'users_by_email';
 
 export type AuthError = {
   name: 'email' | 'username' | 'password' | 'verifiedPassword' | 'login';
@@ -21,14 +22,14 @@ export type AuthAction =
     type: 'LOGOUT_SUCCESS'
   };
 
-export interface IAuthUser {
+export type AuthUser = {
   email: string;
   password: string;
   username?: string,
   verifiedPassword?: string;
 }
 
-export interface IAuthState {
+export type AuthState = {
   token?: string | null,
   isAuthenticated?: boolean | null,
   loading?: boolean | null,
@@ -38,12 +39,6 @@ export interface IAuthState {
 }
 
 export interface IAuthContext {
-  state: IAuthState;
+  state: AuthState;
   dispatch: Dispatch<AuthAction>;
 }
-
-export type LocationProps = {
-  state: {
-    from: Location;
-  };
-};

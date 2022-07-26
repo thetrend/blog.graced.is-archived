@@ -1,14 +1,22 @@
-import { ChangeEvent, FC, FormEvent, useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router';
-import { login } from '../../contexts/auth/authActions';
-import { AuthContext } from '../../contexts/auth/AuthContext';
-import { IAuthUser } from '../../contexts/auth/AuthTypes';
-import classNames from 'classnames';
+import { 
+  ChangeEvent, 
+  FC, 
+  FormEvent, 
+  useContext, 
+  useState
+} from 'react';
+import { 
+  AuthContext, 
+  AuthTypes, 
+  login,
+ } from '~COMPONENTS/Auth';
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router';
+import classNames from 'classnames';
 
 const Login: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const [formData, setFormData] = useState<IAuthUser>({
+  const [formData, setFormData] = useState<AuthTypes.AuthUser>({
     email: '',
     password: '',
   });

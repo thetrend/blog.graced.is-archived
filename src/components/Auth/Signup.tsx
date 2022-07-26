@@ -1,14 +1,24 @@
-import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
-import { Navigate } from 'react-router';
+import { 
+  AuthContext, 
+  AuthTypes,
+  signup,
+} from '~COMPONENTS/Auth';
+
+import { 
+  ChangeEvent, 
+  FC, 
+  FormEvent, 
+  useContext, 
+  useState,
+} from 'react';
+
 import { Link } from 'react-router-dom';
-import { signup } from '../../contexts/auth/authActions';
-import { AuthContext } from '../../contexts/auth/AuthContext';
-import { IAuthUser } from '../../contexts/auth/AuthTypes';
+import { Navigate } from 'react-router';
 import classNames from 'classnames';
 
 const Signup: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const [formData, setFormData] = useState<IAuthUser>({
+  const [formData, setFormData] = useState<AuthTypes.AuthUser>({
     email: '',
     username: '',
     password: '',
@@ -22,14 +32,14 @@ const Signup: FC = () => {
   const handleSignup = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signup(dispatch, formData);
-  }
+  };
 
   let emailError, usernameError, passwordError, verifypwError;
 
   let { errors, isAuthenticated } = state;
 
   if (errors && errors.length > 0) {
-    errors.forEach(error => {
+    errors.forEach((error: AuthTypes.AuthError) => {
       switch (error.name) {
         case 'email':
           emailError = error.message;
@@ -49,9 +59,9 @@ const Signup: FC = () => {
     });
   }
 
-    if (isAuthenticated) {
-      return <Navigate to="/" replace />;
-    }
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={classNames("w-8/12 m-auto flex flex-col")}>
@@ -68,7 +78,7 @@ const Signup: FC = () => {
         <span><button type="submit">Sign Up</button> or <Link to="/login">Login</Link></span>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Signup;

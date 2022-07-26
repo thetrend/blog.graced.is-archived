@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
-import PostSnippet from '../../components/Posts/PostSnippet';
-import { PostContext } from '../../contexts/posts/PostContext';
+import PostSnippet from './PostSnippet';
+import { PostContext } from './PostContext';
 
 const Posts: FC = () => {
   const { state, dispatch } = useContext(PostContext);

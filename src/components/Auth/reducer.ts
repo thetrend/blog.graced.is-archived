@@ -1,6 +1,6 @@
-import { AuthAction, IAuthState } from './AuthTypes';
+import { AuthTypes } from '~COMPONENTS/Auth';
 
-export default (state: IAuthState, action: AuthAction): IAuthState => {
+export default (state: AuthTypes.AuthState, action: AuthTypes.AuthAction): AuthTypes.AuthState => {
   switch (action.type) {
     case 'SIGNUP_ERROR':
     case 'LOGIN_ERROR':

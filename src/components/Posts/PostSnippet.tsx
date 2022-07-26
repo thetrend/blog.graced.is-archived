@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Post } from '../../contexts/posts/PostTypes';
+import { Post } from './types';
 
 const PostSnippet: FC<{ post: Post }> = ({ post }) => {
   return (

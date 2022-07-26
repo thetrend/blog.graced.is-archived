@@ -1,10 +1,14 @@
-import axios from 'axios';
+import { 
+  AuthTypes,
+ } from '~COMPONENTS/Auth';
 import { Dispatch } from 'react';
-import setAuthToken from '../../utils/setAuthToken';
-import { API_AUTH_URL, AuthAction, IAuthUser } from './AuthTypes';
+
+import axios from 'axios';
+import setAuthToken from '~UTILS/setAuthToken';
+import { API_AUTH_URL } from '~NETLIFY/auth/types';
 
 // Signup User
-export const signup = async (dispatch: Dispatch<AuthAction>, formData: IAuthUser) => {
+export const signup = async (dispatch: Dispatch<AuthTypes.AuthAction>, formData: AuthTypes.AuthUser) => {
   try {
     const response = await axios.post(`${API_AUTH_URL}/signup`, formData);
     if (Array.isArray(response.data)) {
@@ -23,7 +27,7 @@ export const signup = async (dispatch: Dispatch<AuthAction>, formData: IAuthUser
 };
 
 // Login User
-export const login = async (dispatch: Dispatch<AuthAction>, formData: IAuthUser) => {
+export const login = async (dispatch: Dispatch<AuthTypes.AuthAction>, formData: AuthTypes.AuthUser) => {
   try {
     const response = await axios.post(`${API_AUTH_URL}/login`, formData);
     if (Array.isArray(response.data)) {
@@ -43,7 +47,7 @@ export const login = async (dispatch: Dispatch<AuthAction>, formData: IAuthUser)
 }
 
 // Logout User
-export const logout = async (dispatch: Dispatch<AuthAction>) => {
+export const logout = async (dispatch: Dispatch<AuthTypes.AuthAction>) => {
   try {
     const response = await axios.get(`${API_AUTH_URL}/logout`);
     if (response.data.isAuthenticated === false) {

@@ -1,4 +1,4 @@
-import { HandlerEvent, HandlerResponse } from '@netlify/functions';
+import { HandlerEvent } from '@netlify/functions';
 
 import { genericError, urlHelper, authHelper as authenticate } from '../utils';
 import fetchPosts from './fetchPosts';

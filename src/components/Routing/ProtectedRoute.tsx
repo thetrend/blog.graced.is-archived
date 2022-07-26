@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { AuthContext } from '../../contexts/auth/AuthContext';
+import { AuthContext } from '../Auth/AuthContext';
 
 const ProtectedRoute: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
