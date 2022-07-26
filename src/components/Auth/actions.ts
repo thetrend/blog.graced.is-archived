@@ -5,7 +5,7 @@ import { Dispatch } from 'react';
 
 import axios from 'axios';
 import setAuthToken from '~UTILS/setAuthToken';
-import { API_AUTH_URL } from '~NETLIFY/auth/types';
+import { API_AUTH_URL } from '@NETLIFY/auth/types';
 
 // Signup User
 export const signup = async (dispatch: Dispatch<AuthTypes.AuthAction>, formData: AuthTypes.AuthUser) => {

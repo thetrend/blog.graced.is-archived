@@ -21,6 +21,7 @@
       "~COMPONENTS/*": ["src/components/*"],
       "~UTILS/*": ["src/utils/*"],
       "~NETLIFY/*": ["functions/*"],
+      "@NETLIFY/*": ["functions/*"],
       "~SRC/*": ["src/*"],
     }
   },

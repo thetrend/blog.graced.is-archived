@@ -10,13 +10,13 @@ export default defineConfig({
       '~COMPONENTS': path.resolve(__dirname, './src/components'),
       '~UTILS': path.resolve(__dirname, './src/utils'),
       '~SRC': path.resolve(__dirname, './src'),
-      '~NETLIFY': path.resolve(__dirname, './functions'),
+      '@NETLIFY': path.resolve(__dirname, './functions'),
     }
   },
   build: {
     rollupOptions: {
       external: [
-        '~NETLIFY/auth/types', path.resolve(__dirname, './functions/auth/types')
+        '@NETLIFY/auth/types', path.resolve(__dirname, './functions/auth/types')
       ]
     }
   }
