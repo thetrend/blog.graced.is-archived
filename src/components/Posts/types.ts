@@ -15,7 +15,7 @@ export type Post = {
   authorID?: string;
 }
 
-export type IPostState = {
+export type PostState = {
   posts?: Post[] | null;
   post?: Post | null;
   loading?: boolean | null;
@@ -40,6 +40,6 @@ export type PostAction =
   };
 
 export interface IPostContext {
-  state: IPostState;
+  state: PostState;
   dispatch: Dispatch<PostAction>;
 }

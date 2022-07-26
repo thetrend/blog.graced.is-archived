@@ -1,5 +1,5 @@
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
-import { Post } from '../../src/contexts/posts/PostTypes';
+import { Post } from '../../src/components/Posts/types';
 import { dbHelper, genericError } from '../utils';
 
 const createPost = async (event: HandlerEvent): Promise<HandlerResponse> => {

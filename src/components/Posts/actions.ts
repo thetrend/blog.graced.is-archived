@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
-import { API_POST_URL, Post, PostAction } from './PostTypes';
+import { API_POST_URL, Post, PostAction } from './types';
 
 // Create Post
 export const createPost = async (dispatch: Dispatch<PostAction>, formData: Post) => {

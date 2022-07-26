@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
-export type ContextProps = {
+type ContextProps = {
   children?: ReactNode;
 };
+
+export default ContextProps;

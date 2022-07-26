@@ -1,22 +1,20 @@
-import { HandlerEvent, HandlerResponse } from '@netlify/functions';
-
-import jwt from 'jsonwebtoken';
-import { AuthError, IAuthUser } from '../../src/contexts/auth/AuthTypes';
 import { dbHelper } from '../utils';
+import { HandlerEvent, HandlerResponse } from '@netlify/functions';
+import jwt from 'jsonwebtoken';
+import { AuthError, AuthUser, FAUNA_USERS_EMAIL_INDEX } from './types';
 
 const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
-    let { email, password }: IAuthUser = JSON.parse(event.body as string);
+    let { email, password }: AuthUser = JSON.parse(event.body as string);
 
     let errorsArray: AuthError[] = [];
 
     let { client, q } = dbHelper(false);
-    const FAUNA_INDEX_USERS_EMAIL: string = 'users_by_email';
 
     let loginQuery = await client.query(
       q.Login(
         q.Match(
-          q.Index(FAUNA_INDEX_USERS_EMAIL),
+          q.Index(FAUNA_USERS_EMAIL_INDEX),
           email
         ),
         { password }

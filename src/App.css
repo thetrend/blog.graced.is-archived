@@ -22,10 +22,6 @@
 }
 */
 
-body {
-  @apply bg-slate-50
-}
-
 #content {
   @apply w-full lg:px-10 pb-20
 }

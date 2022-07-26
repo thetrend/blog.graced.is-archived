@@ -24,5 +24,5 @@ const logout = async (): Promise<HandlerResponse> => {
   };
 };
 
-export { destroyLogin };
+export { destroyLogin }; // FIXME: Is this needed?
 export default logout;
