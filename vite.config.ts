@@ -16,7 +16,6 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: [
-        '@NETLIFY/auth/types', path.resolve(__dirname, './functions/auth/types'),
       ]
     }
   }
