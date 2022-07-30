@@ -8,7 +8,7 @@ const handler: Handler = async (event, context) => {
   ).then(res => console.log(res)).catch(err => console.log(err));
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: `bonjour` })
+    body: JSON.stringify({ message: `bonjour database ${process.env.DATABASE_TYPE}` })
   };
 };
 
