@@ -11,17 +11,17 @@ const urlHelper = (event: HandlerEvent) => {
 };
 
 const dbHelper = (isAuthenticated: boolean = true, needsAdminPrivileges: boolean = false) => {
-  const QUERY_DATABASE: string = process.env.NODE_ENV !== 'production' ?
-    process.env.BRANCH === 'staging' ? 
+  const QUERY_DATABASE: string = process.env.CONTEXT === 'production' ?
+    process.env.CONTEXT :
+    process.env.BRANCH === 'staging' ?
       process.env.BRANCH :
-      'development' :
-    process.env.NODE_ENV;
+      'development';
   const client = new faunadb.Client({
     secret: isAuthenticated ?
       `${process.env.AUTH_SECRET}:${QUERY_DATABASE}` as string :
-        needsAdminPrivileges ?
-          `${process.env.FAUNADB_ADMIN_SECRET}:${QUERY_DATABASE}:admin` as string :
-          `${process.env.FAUNADB_SERVER_SECRET}:${QUERY_DATABASE}:server` as string
+      needsAdminPrivileges ?
+        `${process.env.FAUNADB_ADMIN_SECRET}:${QUERY_DATABASE}:admin` as string :
+        `${process.env.FAUNADB_SERVER_SECRET}:${QUERY_DATABASE}:server` as string
     ,
     keepAlive: isAuthenticated
   });
