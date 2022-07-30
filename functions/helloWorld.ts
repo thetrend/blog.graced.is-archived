@@ -8,7 +8,7 @@ const handler: Handler = async (event, context) => {
   ).then(res => console.log(res)).catch(err => console.log(err));
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: `bonjour ${process.env.BUILD_ENV || 'development'}` })
+    body: JSON.stringify({ message: `bonjour` })
   };
 };
 
