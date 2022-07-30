@@ -6,9 +6,14 @@ const handler: Handler = async (event, context) => {
   await client.query(
     q.CreateDatabase({ name: 'test' })
   ).then(res => console.log(res)).catch(err => console.log(err));
+  const env = process.env.NODE_ENV !== 'production' ?
+  process.env.BRANCH === 'staging' ? 
+    process.env.BRANCH :
+    'development' :
+  process.env.NODE_ENV;
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: `bonjour ${process.env['BRANCH']}` })
+    body: JSON.stringify({ message: `bonjour ${env}` })
   };
 };
 
