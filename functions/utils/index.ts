@@ -11,12 +11,13 @@ const urlHelper = (event: HandlerEvent) => {
 };
 
 const dbHelper = (isAuthenticated: boolean = true, needsAdminPrivileges: boolean = false) => {
+  const QUERY_DATABASE: string = process.env.DATABASE_TYPE || 'staging';
   const client = new faunadb.Client({
     secret: isAuthenticated ?
-      process.env.AUTH_SECRET as string :
+      `${process.env.AUTH_SECRET}:${QUERY_DATABASE}` as string :
       needsAdminPrivileges ?
-        process.env.FAUNADB_ADMIN_SECRET as string :
-        process.env.FAUNADB_SERVER_SECRET as string
+        `${process.env.FAUNADB_ADMIN_SECRET}:${QUERY_DATABASE}:admin` as string :
+        `${process.env.FAUNADB_SERVER_SECRET}:${QUERY_DATABASE}:server` as string
     ,
     keepAlive: isAuthenticated
   });
@@ -47,7 +48,7 @@ const genericError = () => {
   return {
     statusCode: 500,
     body: JSON.stringify({ message: 'Server error' })
-  }
-}
+  };
+};
 
 export { urlHelper, dbHelper, authHelper, genericError };

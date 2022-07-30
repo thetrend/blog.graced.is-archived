@@ -131,10 +131,10 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
 
     await client.query(
       q.If(
-        q.Exists(q.Role('crud_posts')),
+        q.Exists(q.Role('contributors')),
         null,
         q.CreateRole({
-          name: 'crud_posts',
+          name: 'contributors',
           membership: [
             {
               resource: q.Collection(FAUNA_COLL_USERS),
