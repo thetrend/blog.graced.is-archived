@@ -13,8 +13,8 @@ const urlHelper = (event: HandlerEvent) => {
 const dbHelper = (isAuthenticated: boolean = true, needsAdminPrivileges: boolean = false) => {
   const QUERY_DATABASE: string = process.env.CONTEXT === 'production' ?
     process.env.CONTEXT :
-    process.env.BRANCH === 'staging' ?
-      process.env.BRANCH :
+    process.env.CONTEXT !== 'production' ?
+      'staging' :
       'development';
   const client = new faunadb.Client({
     secret: isAuthenticated ?
