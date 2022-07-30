@@ -10,7 +10,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
-[context.staging.environment]
+[context.branch-deploy]
   NODE_ENV = "staging"
-[context.production.environment]
+[context.production]
   NODE_ENV = "production"
