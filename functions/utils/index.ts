@@ -11,7 +11,7 @@ const urlHelper = (event: HandlerEvent) => {
 };
 
 const dbHelper = (isAuthenticated: boolean = true, needsAdminPrivileges: boolean = false) => {
-  const QUERY_DATABASE: string = process.env.DATABASE_TYPE || 'unknown';
+  const QUERY_DATABASE: string = process.env.DATABASE_TYPE || 'development';
   const client = new faunadb.Client({
     secret: isAuthenticated ?
       `${process.env.AUTH_SECRET}:${QUERY_DATABASE}` as string :
