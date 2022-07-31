@@ -1,7 +1,8 @@
 import { HandlerEvent } from '@netlify/functions';
+import countUsers from './countUsers';
 
 import { genericError, urlHelper } from '../utils';
-import countUsers from './countUsers';
+
 
 const handler = async (event: HandlerEvent) => {
   try {

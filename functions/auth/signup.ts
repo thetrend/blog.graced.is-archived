@@ -4,9 +4,14 @@ import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import axios from 'axios';
 import validator from 'validator';
 import { API_AUTH_URL, AuthError, AuthUser } from './types';
+import { API_USERS_URL } from '../users/types';
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
+    let countQuery = await axios.get(`${process.env['URL']}${API_USERS_URL}/count`)
+      .then(res => res.data.count)
+      .catch(err => console.log(err));
+
     if (event.httpMethod !== 'POST') {
       return genericError();
     }
@@ -157,7 +162,9 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
       )
     );
 
-    let signupQuery = await client.query(
+    let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
+
+    let signupQuery = signupLock ? { message: 'Signups are disabled at this time.' } : await client.query(
       q.Create(
         q.Collection(FAUNA_COLL_USERS),
         {
@@ -175,7 +182,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
           .then(res => res.data);
       })
       .catch((err: any) => {
-        const error = err.description.includes('document is not unique') ? 'User email already exists.' as string : err.description as string;
+        const error: string = err.description.includes('document is not unique') ? 'User email already exists.' : err.description;
         return {
           message: error
         };
