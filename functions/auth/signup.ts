@@ -181,7 +181,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
           .then(res => res.data);
       })
       .catch((err: any) => {
-        const error = err.description.includes('document is not unique') ? 'User email already exists.' as string : err.description as string;
+        const error: string = err.description.includes('document is not unique') ? 'User email already exists.' : err.description;
         return {
           message: error
         };
