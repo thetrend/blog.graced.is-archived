@@ -7,6 +7,10 @@ import { API_AUTH_URL, AuthError, AuthUser } from './types';
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
+    let countQuery = await axios.get(`${process.env['URL']}${API_USERS_URL}/count`)
+      .then(res => res.data.count)
+      .catch(err => console.log(err));
+
     if (event.httpMethod !== 'POST') {
       return genericError();
     }
@@ -159,8 +163,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
 
     let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
-    let signupQuery = signupLock ? await client.query(
-
+    let signupQuery = signupLock ? { message: 'Signups are disabled at this time.' } : await client.query(
       q.Create(
         q.Collection(FAUNA_COLL_USERS),
         {
