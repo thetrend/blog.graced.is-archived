@@ -4,7 +4,7 @@ import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import axios from 'axios';
 import validator from 'validator';
 import { API_AUTH_URL, AuthError, AuthUser } from './types';
-import { API_USERS_URL } from '../users/types';
+import { API_USERS_URL } from '~NETLIFY/users/types';
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
