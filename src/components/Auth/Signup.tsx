@@ -1,21 +1,23 @@
-import { 
-  AuthContext, 
+import {
+  AuthContext,
   AuthTypes,
   signup,
 } from '~COMPONENTS/Auth';
 
-import { 
-  ChangeEvent, 
-  FC, 
-  FormEvent, 
-  useContext, 
-  useEffect, 
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useContext,
+  useEffect,
   useState,
 } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router';
 import classNames from 'classnames';
+import axios from 'axios';
+import { API_AUTH_URL } from '~NETLIFY/auth/types';
 
 const Signup: FC = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -25,6 +27,8 @@ const Signup: FC = () => {
     password: '',
     verifiedPassword: '',
   });
+
+  const [disabledPage, setDisabledPage] = useState<string | null>();
 
   const { email, username, password, verifiedPassword } = formData;
 
@@ -64,10 +68,20 @@ const Signup: FC = () => {
     return <Navigate to="/" replace />;
   }
 
+  useEffect(() => {
+    const verifyPageStatus = async () => {
+      const response = await axios.post(`${API_AUTH_URL}/signup`, {}).then(res => res.data);
+      if (response.message) {
+        setDisabledPage(response.message);
+      }
+    };
+    verifyPageStatus();
+  }, [disabledPage]);
+
   return (
     <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Signup</h1>
-      <form onSubmit={handleSignup}>
+      {disabledPage ? <h2 className={classNames('font-normal')}>{disabledPage}</h2> : <form onSubmit={handleSignup}>
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
         {emailError && <p className="form-error">{emailError}</p>}
         <input type="text" name="username" placeholder="Username" value={username} onChange={handleChange} />
@@ -77,7 +91,7 @@ const Signup: FC = () => {
         <input type="password" name="verifiedPassword" placeholder="Verify Password" value={verifiedPassword} onChange={handleChange} />
         {verifypwError && <p className="form-error">{verifypwError}</p>}
         <span><button type="submit">Sign Up</button> or <Link to="/login">Login</Link></span>
-      </form>
+      </form>}
     </div>
   );
 };
