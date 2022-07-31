@@ -12,11 +12,5 @@ export default defineConfig({
       '~SRC': path.resolve(__dirname, './src'),
       '~NETLIFY': path.resolve(__dirname, './functions'),
     }
-  },
-  build: {
-    rollupOptions: {
-      external: [
-      ]
-    }
   }
 });
