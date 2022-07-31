@@ -5,10 +5,20 @@ const countUsers = async (event: HandlerEvent): Promise<HandlerResponse> => {
   const { client, q } = dbHelper(false, true, false);
 
   let countQuery = await client.query(
-    q.Count(q.Paginate(q.Documents(q.Collection('users'))))
+    q.If(
+      q.Exists(q.Collection('users')),
+      q.Count(
+        q.Paginate(
+          q.Documents(
+            q.Collection('users')
+          )
+        )
+      ),
+      0,
+    )
   )
-    .then((res: any) => res.data[0])
-    .catch(err => console.error(err));
+    .then((res: any) => res.data ? res.data[0] : 0)
+    .catch(err => err);
   return {
     statusCode: 200,
     body: JSON.stringify({ count: countQuery })
