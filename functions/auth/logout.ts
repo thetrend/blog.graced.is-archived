@@ -13,7 +13,7 @@ const logout = async (): Promise<HandlerResponse> => {
   try {
     destroyLogin();
     await client.query(
-      q.Logout(false)
+      q.Logout(true)
     );
     return {
       statusCode: 200,
