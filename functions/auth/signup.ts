@@ -164,6 +164,8 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
 
     let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
+    console.log('context is', process.env['CONTEXT']);
+
     let signupQuery = signupLock ? { message: 'Signups are disabled at this time.' } : await client.query(
       q.Create(
         q.Collection(FAUNA_COLL_USERS),
@@ -177,8 +179,8 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         }
       )
     )
+      .then(async () => { if (process.env['CONTEXT'] !== 'dev') await nap(2000); })
       .then(async () => {
-        if (process.env['CONTEXT'] !== 'dev') await nap(2000);
         return await axios.post(`${process.env['URL']}${API_AUTH_URL}/login`, { email, password })
           .then(res => res.data);
       })
