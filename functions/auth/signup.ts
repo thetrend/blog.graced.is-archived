@@ -4,20 +4,12 @@ import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import axios from 'axios';
 import validator from 'validator';
 import { API_AUTH_URL, AuthError, AuthUser } from './types';
-import { API_USERS_URL } from '~NETLIFY/users/types';
 
 const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
-    let countQuery = await axios.get(`${process.env['URL']}${API_USERS_URL}/count`)
-      .then(res => res.data.count)
-      .catch(err => console.log(err));
-
-    console.log(countQuery);
-
     if (event.httpMethod !== 'POST') {
       return genericError();
     }
-
     let { email, username, password, verifiedPassword }: AuthUser = JSON.parse(event?.body as any); // TODO: kill this any
     let errorsArray: AuthError[] = [];
 
@@ -168,6 +160,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
     let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
     let signupQuery = signupLock ? await client.query(
+
       q.Create(
         q.Collection(FAUNA_COLL_USERS),
         {
@@ -189,9 +182,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         return {
           message: error
         };
-      }) :
-      { message: 'Signups are disabled at this time.' };
-
+      });
     return {
       statusCode: 200,
       body: JSON.stringify(signupQuery)
