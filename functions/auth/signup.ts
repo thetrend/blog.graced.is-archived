@@ -14,8 +14,6 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
   
     let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
-    console.log(countQuery, process.env['LIMIT_SIGNUPS'], signupLock);
-
     if (signupLock) {
       return {
         statusCode: 200,
