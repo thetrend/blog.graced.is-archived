@@ -178,7 +178,6 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
       )
     )
       .then(async () => {
-        if (process.env['CONTEXT'] !== 'dev') await nap(2000);
         return await axios.post(`${process.env['URL']}${API_AUTH_URL}/login`, { email, password })
           .then(res => res.data);
       })
