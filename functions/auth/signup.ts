@@ -165,7 +165,7 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
       )
     );
 
-    let signupLock = countQuery > 0 && process.env['LIMIT_SIGNUPS'] ? true : false;
+    let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
     let signupQuery = signupLock ? await client.query(
       q.Create(
