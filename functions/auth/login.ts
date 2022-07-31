@@ -9,7 +9,7 @@ const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
 
     let errorsArray: AuthError[] = [];
 
-    let { client, q } = dbHelper(false);
+    let { client, q } = dbHelper(false, true);
 
     let loginQuery = await client.query(
       q.Login(
