@@ -11,10 +11,20 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
     let countQuery = await axios.get(`${process.env['URL']}${API_USERS_URL}/count`)
       .then(res => res.data.count)
       .catch(err => console.log(err));
+  
+    let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
-    if (event.httpMethod !== 'POST') {
+    console.log(countQuery, process.env['LIMIT_SIGNUPS'], signupLock);
+
+    if (signupLock) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Signups are disabled at this time.' })
+      }
+    } else if (event.httpMethod !== 'POST') {
       return genericError();
     }
+
     let { email, username, password, verifiedPassword }: AuthUser = JSON.parse(event?.body as any); // TODO: kill this any
     let errorsArray: AuthError[] = [];
 
@@ -161,8 +171,6 @@ const signup = async (event: HandlerEvent): Promise<HandlerResponse> => {
         })
       )
     );
-
-    let signupLock = (countQuery > 0 && process.env['LIMIT_SIGNUPS']) ? true : false;
 
     let signupQuery = signupLock ? { message: 'Signups are disabled at this time.' } : await client.query(
       q.Create(
