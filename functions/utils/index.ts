@@ -55,4 +55,12 @@ const genericError = () => {
   };
 };
 
-export { urlHelper, dbHelper, authHelper, genericError };
+const nap = (duration: number) => {
+  return new Promise ((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, duration);
+  });
+};
+
+export { urlHelper, dbHelper, authHelper, genericError, nap };
