@@ -64,10 +64,6 @@ const Signup: FC = () => {
     });
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
   useEffect(() => {
     const verifyPageStatus = async () => {
       const response = await axios.post(`${API_AUTH_URL}/signup`, {}).then(res => res.data);
@@ -76,9 +72,11 @@ const Signup: FC = () => {
       }
     };
     verifyPageStatus();
-  }, [disabledPage]);
+
+  }, [disabledPage, isAuthenticated]);
 
   return (
+    !isAuthenticated &&
     <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Signup</h1>
       {disabledPage ? <h2 className={classNames('font-normal')}>{disabledPage}</h2> : <form onSubmit={handleSignup}>
@@ -93,7 +91,7 @@ const Signup: FC = () => {
         <span><button type="submit">Sign Up</button> or <Link to="/login">Login</Link></span>
       </form>}
     </div>
-  );
+  ) || <Navigate to="/" replace />;
 };
 
 export default Signup;
