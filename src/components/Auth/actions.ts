@@ -45,12 +45,12 @@ export const login = async (dispatch: Dispatch<AuthAction>, formData: AuthUser) 
 
 // Logout User
 export const logout = async (dispatch: Dispatch<AuthAction>) => {
+  const response = await axios.get(`${API_AUTH_URL}/logout`);
   try {
-    const response = await axios.get(`${API_AUTH_URL}/logout`);
     if (response.data.isAuthenticated === false) {
       dispatch({ type: 'LOGOUT_SUCCESS' });
     }
   } catch (error) {
-    console.log(error);
+    response;
   }
 }
