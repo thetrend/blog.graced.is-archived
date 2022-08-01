@@ -9,11 +9,13 @@ const destroyLogin = () => {
 };
 
 const logout = async (): Promise<HandlerResponse> => {
-  let { client, q } = dbHelper();
-  destroyLogin();
-  await client.query(
-    q.Logout(true)
-  );
+  if (process.env['TOKEN']) {
+    destroyLogin();
+    let { client, q } = dbHelper();
+    await client.query(
+      q.Logout(true)
+    );
+  }
   return {
     statusCode: 200,
     body: JSON.stringify({ isAuthenticated: false })
