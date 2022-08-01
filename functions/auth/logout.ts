@@ -10,11 +10,11 @@ const destroyLogin = () => {
 
 const logout = async (): Promise<HandlerResponse> => {
   if (process.env['TOKEN']) {
-    destroyLogin();
     let { client, q } = dbHelper();
     await client.query(
       q.Logout(true)
-    );
+      );
+    destroyLogin();
   }
   return {
     statusCode: 200,
