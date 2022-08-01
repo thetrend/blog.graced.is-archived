@@ -10,17 +10,13 @@ const destroyLogin = () => {
 
 const logout = async (): Promise<HandlerResponse> => {
   let { client, q } = dbHelper();
-  try {
-    destroyLogin();
-    await client.query(
-      q.Logout(true)
-    );
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ isAuthenticated: false })
-    };
-  } catch (error) {
-    return genericError();
+  destroyLogin();
+  await client.query(
+    q.Logout(true)
+  );
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ isAuthenticated: false })
   };
 };
 

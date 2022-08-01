@@ -49,7 +49,7 @@ const Home: FC = () => {
   return (
     <>
       {isAuthenticated && (<>Hello, $user. <a onClick={() => logout(dispatch)}>Logout?</a></>)}
-      <Link to="/login">Login</Link>
+      {' '}<Link to="/login">Login</Link>
       <Posts />
     </>
   );
