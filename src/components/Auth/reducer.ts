@@ -7,29 +7,28 @@ export default (state: AuthTypes.AuthState, action: AuthTypes.AuthAction): AuthT
       localStorage.removeItem('token');
       return {
         ...state,
-        token: null,
+        token: undefined,
         isAuthenticated: false,
         loading: false,
-        errors: action.payload,
-      }
+        errors: (action.type === 'SIGNUP_ERROR') ? action.payload : undefined,
+        error: (action.type === 'LOGIN_ERROR') ? action.payload.error : undefined,
+      };
     case 'LOGIN_SUCCESS':
-      console.log(action.payload);
       return {
         ...state,
         token: action.payload.token,
         isAuthenticated: action.payload.isAuthenticated,
         loading: false,
-      }
+      };
     case 'LOGOUT_SUCCESS':
       localStorage.removeItem('token');
       return {
         ...state,
-        token: null,
+        token: undefined,
         isAuthenticated: false,
         loading: false,
-        errors: null,
-      }
+      };
     default:
       return state;
   }
-}
+};
