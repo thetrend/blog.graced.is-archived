@@ -48,8 +48,7 @@ const Home: FC = () => {
   const { isAuthenticated } = state;
   return (
     <>
-      {isAuthenticated && (<>Hello, $user. <a onClick={() => logout(dispatch)}>Logout?</a></>)}
-      {' '}<Link to="/login">Login</Link>
+      {isAuthenticated ? (<>Hello, $user. <span className="link" onClick={() => logout(dispatch)}>Logout?</span></>) : <Link to="/login">Login</Link>}
       <Posts />
     </>
   );
