@@ -72,7 +72,7 @@ const Signup: FC = () => {
       }
     };
     verifyPageStatus();
-  }, [disabledPage, isAuthenticated]);
+  }, [disabledPage]);
 
   return (
     !isAuthenticated &&

@@ -32,13 +32,8 @@ const Login: FC = () => {
 
   let { error, isAuthenticated } = state;
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />
-  }
-
-  console.log('this is from login.tsx: ', state);
-
   return (
+    !isAuthenticated &&
     <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
@@ -48,7 +43,7 @@ const Login: FC = () => {
         <span><button type="submit">Login</button> or <Link to="/signup">Signup</Link></span>
       </form>
     </div>
-  )
+  ) || <Navigate to="/" replace />;
 }
 
 export default Login;

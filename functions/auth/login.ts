@@ -39,7 +39,7 @@ const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
   } catch (error: any) {
     let errorMessage = {
       name: 'login',
-      message: error.description
+      message: error.description || error
     };
     return {
       statusCode: 200,
