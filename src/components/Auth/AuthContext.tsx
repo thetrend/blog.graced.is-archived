@@ -12,11 +12,12 @@ import {
 import ContextProps from '~SRC/ContextProps';
 
 export const initialAuthState: AuthTypes.AuthState = {
-  token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  token: localStorage.getItem('token') || undefined,
+  isAuthenticated: undefined,
   loading: true,
-  errors: null,
-  message: null,
+  errors: undefined,
+  error: undefined,
+  message: undefined,
 };
 
 export const AuthContext = createContext<{ state: AuthTypes.AuthState, dispatch: Dispatch<AuthTypes.AuthAction> }>
