@@ -13,7 +13,7 @@ import ContextProps from '~SRC/ContextProps';
 
 export const initialAuthState: AuthTypes.AuthState = {
   token: localStorage.getItem('token') || undefined,
-  isAuthenticated: undefined,
+  isAuthenticated: localStorage.getItem('token') ? true : undefined,
   loading: true,
   errors: undefined,
   error: undefined,
