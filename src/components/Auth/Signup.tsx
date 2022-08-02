@@ -72,7 +72,6 @@ const Signup: FC = () => {
       }
     };
     verifyPageStatus();
-
   }, [disabledPage, isAuthenticated]);
 
   return (

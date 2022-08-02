@@ -16,10 +16,15 @@ export type AuthAction =
       isAuthenticated: boolean,
     };
   } | {
-    type: 'SIGNUP_ERROR' | 'LOGIN_ERROR',
-    payload?: AuthError[];
+    type: 'SIGNUP_ERROR',
+    payload: AuthError[];
   } | {
-    type: 'LOGOUT_SUCCESS'
+    type: 'LOGIN_ERROR',
+    payload: {
+      error: AuthError,
+    };
+  } | {
+    type: 'LOGOUT_SUCCESS';
   };
 
 export type AuthUser = {
@@ -27,16 +32,17 @@ export type AuthUser = {
   password: string;
   username?: string,
   verifiedPassword?: string;
-}
+};
 
 export type AuthState = {
-  token?: string | null,
-  isAuthenticated?: boolean | null,
-  loading?: boolean | null,
-  errors?: AuthError[] | null;
-  message?: string | null;
-  id?: string | null;
-}
+  error?: AuthError;
+  errors?: AuthError[];
+  id?: string;
+  isAuthenticated?: boolean;
+  loading?: boolean;
+  message?: string;
+  token?: string;
+};
 
 export interface IAuthContext {
   state: AuthState;
