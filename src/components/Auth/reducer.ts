@@ -14,6 +14,7 @@ export default (state: AuthTypes.AuthState, action: AuthTypes.AuthAction): AuthT
         error: (action.type === 'LOGIN_ERROR') ? action.payload.error : undefined,
       };
     case 'LOGIN_SUCCESS':
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         token: action.payload.token,

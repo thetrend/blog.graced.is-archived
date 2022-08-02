@@ -1,7 +1,7 @@
 import { dbHelper } from '../utils';
 import { HandlerEvent, HandlerResponse } from '@netlify/functions';
 import jwt from 'jsonwebtoken';
-import { AuthError, AuthUser, FAUNA_USERS_EMAIL_INDEX } from './types';
+import { AuthUser, FAUNA_USERS_EMAIL_INDEX } from './types';
 
 const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
