@@ -7,7 +7,6 @@ const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
   try {
     let { email, password }: AuthUser = JSON.parse(event.body as string);
 
-    let errorsArray: AuthError[] = [];
 
     let { client, q } = dbHelper(false, true);
 
@@ -27,32 +26,26 @@ const login = async (event: HandlerEvent): Promise<HandlerResponse> => {
           { expiresIn: '1h' }
         );
         process.env['AUTH_SECRET'] = res.secret;
-        return { 
+        return {
           token: process.env['TOKEN'],
           isAuthenticated: true,
         };
-      })
-      .catch((err: any) => {
-        errorsArray.push({
-          name: 'login',
-          message: err.message.includes('ECONNRESET') ?
-            'Server failure' : 
-            err.message
-        });
-        return {
-          errors: errorsArray,
-          isAuthenticated: false,
-        };      
       });
 
     return {
       statusCode: 200,
       body: JSON.stringify(loginQuery)
     };
-  } catch (error) {
+  } catch (error: any) {
+    let errorMessage = {
+      name: 'login',
+      message: error.description
+    };
     return {
-      statusCode: 500,
-      body: error as string
+      statusCode: 200,
+      body: JSON.stringify({
+        error: errorMessage
+      })
     };
   }
 };

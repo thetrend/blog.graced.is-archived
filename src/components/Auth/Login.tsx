@@ -30,17 +30,19 @@ const Login: FC = () => {
     login(dispatch, formData);
   }
 
-  let { errors, isAuthenticated } = state;
+  let { error, isAuthenticated } = state;
 
   if (isAuthenticated) {
     return <Navigate to="/" replace />
   }
 
+  console.log('this is from login.tsx: ', state);
+
   return (
     <div className={classNames("w-8/12 m-auto flex flex-col")}>
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
-      {errors && <p className="form-error">{errors[0].message}</p>}
+      {error && <p className="form-error"><span className="text-red-600">Login Error:</span>{' '}{error.message}</p>}
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} />
         <input type="password" name="password" placeholder="Password" value={password} onChange={handleChange} />
         <span><button type="submit">Login</button> or <Link to="/signup">Signup</Link></span>

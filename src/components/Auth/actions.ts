@@ -27,11 +27,11 @@ export const signup = async (dispatch: Dispatch<AuthAction>, formData: AuthUser)
 export const login = async (dispatch: Dispatch<AuthAction>, formData: AuthUser) => {
   try {
     const response = await axios.post(`${API_AUTH_URL}/login`, formData);
-    if (Array.isArray(response.data)) {
+    if (Object.hasOwn(response.data, 'error')) {
       dispatch({
         type: 'LOGIN_ERROR',
         payload: response.data,
-      })
+      });
     }
     dispatch({
       type: 'LOGIN_SUCCESS',
@@ -41,7 +41,7 @@ export const login = async (dispatch: Dispatch<AuthAction>, formData: AuthUser) 
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // Logout User
 export const logout = async (dispatch: Dispatch<AuthAction>) => {
@@ -53,4 +53,4 @@ export const logout = async (dispatch: Dispatch<AuthAction>) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
