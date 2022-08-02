@@ -63,7 +63,7 @@ const Header: FC = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/projects">Projects</Link></li>
-        <li>{isAuthenticated ? <Link to="/login">Login</Link> : <Link to="/posts/new">New Post</Link>}</li>
+        <li>{isAuthenticated ? <Link to="/posts/new">New Post</Link> : <Link to="/login">Login</Link>}</li>
       </ul>
     </header>
   );
