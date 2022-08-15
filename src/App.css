@@ -42,7 +42,7 @@ ul.topNav>li>a {
   hover:text-black
 }
 
-button[type="submit"] {
+button[type="submit"]:not(.link-button) {
   @apply 
     w-fit
     inline-block 
@@ -50,6 +50,41 @@ button[type="submit"] {
     py-2.5 
     bg-blue-600 
     text-white 
-    font-medium 
-    text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+    text-sm
+    font-bold
+    leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+}
+
+button.link-button {
+  @apply
+    bg-opacity-0
+    text-blue-600
+    hover:text-blue-700
+    focus:text-blue-700
+    mx-10
+    text-sm
+    font-bold
+    leading-tight
+    uppercase
+}
+
+.button-group > button:not(.preview) {
+  @apply
+    w-7
+    h-7
+    mx-3
+}
+
+.fadeOut {
+  @apply
+    hidden
+    opacity-0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.fadeIn {
+  @apply
+    visible
+    opacity-100;
+  transition: visibility 0s linear 0s, opacity 300ms;
 }

@@ -59,7 +59,7 @@ const Header: FC = () => {
           )
         )
       } />
-      <ul className={classNames("lg:border-l-4 border-black topNav lg:w-3/12 xl:w-2/12 lg:flex-col flex flex-row uppercase font-extralight justify-center place-items-center")}>
+      <ul className={classNames("no-styling lg:border-l-4 border-black topNav lg:w-3/12 xl:w-2/12 lg:flex-col flex flex-row uppercase font-extralight justify-center place-items-center")}>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/projects">Projects</Link></li>

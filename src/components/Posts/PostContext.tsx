@@ -10,10 +10,16 @@ export const initialPostState: PostTypes.PostState = {
   posts: [
     {
       title: 'This is a test post',
-      body: 'This is a test post content',
+      body: 'This is a test post content https://facebook.com/',
       isPrivate: false,
       isDraft: false,
       slug: 'this-is-a-test-post'
+    },
+    {
+      title: 'hello world',
+      isPrivate: false,
+      isDraft: false,
+      slug: 'hello-world'
     }
   ],
   post: null,

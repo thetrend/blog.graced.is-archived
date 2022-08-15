@@ -8,7 +8,7 @@ const Posts: FC = () => {
 
   return (
     <>
-      {posts?.map(post => <PostSnippet post={post} />)}
+      {posts?.map((post, key) => <PostSnippet key={key} post={post} />)}
     </>
   );
 };

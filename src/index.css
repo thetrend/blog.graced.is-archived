@@ -37,11 +37,26 @@
       p-3
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
   }
-  form > textarea {
+  textarea {
     min-height: 2rem;
     transition: min-height 0.7s linear;
   }
-  form > textarea:focus {
+  textarea:focus {
     min-height: 40vh;
+  }
+  ol {
+    @apply
+      list-decimal
+  }
+  ol ol, ul ul {
+    @apply
+      pl-5
+  }
+  ul:not(.no-styling) {
+    @apply
+      list-disc
+  }
+  p + p {
+    @apply mt-5;
   }
 }
